@@ -1,35 +1,45 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [menuData, setMenuData] = useState(null)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const handleFetchMenuClick = async () => {
+		// skicka AJAX request till servern
+		// vänta på svar
+		// spara svaret i state-variabel
+
+		// fetch('localhost:1337/api/menu')  <-- Detta fungerar inte i production
+		try {
+			const response = await fetch('/api/menu')
+			const data = await response.json()
+			setMenuData(data)
+		} catch {
+			// Om något går fel, visa info för utvecklaren
+			console.log('Misslyckades med fetch!');
+		}
+	}
+
+	return (
+		<main>
+			<section>
+				<h1> Fullstack demo </h1>
+				<button onClick={handleFetchMenuClick}> Hämta menyn </button>
+			</section>
+			<section>
+				{menuData
+					? menuData.map(menuItem => (
+						<p key={menuItem.id}>
+							{menuItem.name} ... {menuItem.price}
+						</p>
+					))
+					: <p> Klicka för att hämta menyn! </p>
+				}
+			</section>
+
+		</main>
+	)
 }
 
 export default App

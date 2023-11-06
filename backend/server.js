@@ -30,6 +30,16 @@ app.get('/api/hello', (req, res) => {
 	// send, sendFile, sendStatus
 })
 
+app.get('/api/menu', (req, res) => {
+	// En färdig app hade hämtat datan från databasen
+	const data = [
+		{ id: 1, name: 'Sushi', price: 95 },
+		{ id: 2, name: 'Omelett', price: 55 },
+		{ id: 3, name: 'Fisksoppa', price: 120 }
+	]
+	res.send(data)
+})
+
 
 
 // Starta servern
